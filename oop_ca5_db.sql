@@ -1,3 +1,6 @@
+/* Creation of the db and following sql statements made by Jakub Polacek */
+/* The db will be continuously updated and expanded for future features later */
+
 /* CREATING DATABASE */
 DROP DATABASE IF EXISTS MC_items;
 CREATE DATABASE MC_items;
