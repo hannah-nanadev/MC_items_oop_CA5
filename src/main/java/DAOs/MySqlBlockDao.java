@@ -19,7 +19,6 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
      * Feature 2 - finding entity by ID
      * by Jakub Polacek
      * Returns Block object if found, null in any other case
-     *
      */
     @Override
     public Block getBlockById(int id) throws DaoException
