@@ -10,8 +10,14 @@ import java.util.List;
 
 public interface BlockDaoInterface
 {
+    //TODO - Hannah
     //List<Block> getAllBlocks() throws DaoException;
+
     Block getBlockById(int id) throws DaoException;
-    Block deleteBlockById(int id) throws DaoException;
-    Block insertBlock(Block b) throws DaoException;
+
+    //TODO - Hannah
+    //Block deleteBlockById(int id) throws DaoException;
+
+    //TODO - Ruby
+    //Block insertBlock(Block b) throws DaoException;
 }
