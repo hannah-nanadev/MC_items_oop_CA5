@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface BlockDaoInterface
 {
-    //TODO - Hannah
-    //List<Block> getAllBlocks() throws DaoException;
+
+    List<Block> findAllBlocks() throws DaoException;
 
     Block getBlockById(int id) throws DaoException;
 

@@ -4,8 +4,8 @@ import DTOs.Block;
 import Exceptions.DaoException;
 
 import java.sql.*;
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Base code taken from oop-data-access-layer-sample-1
  *  Rewritten by Jakub Polacek
@@ -14,6 +14,67 @@ import java.sql.*;
 
 public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
 {
+
+    /**
+     * Feature 1 - get all blocks
+     * Made by Ruby, copied from github on 14.3.2024
+     */
+    @Override
+    public List<Block> findAllBlocks() throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Block> blockList = new ArrayList<>();
+
+        try
+        {
+            //Get connection object using the getConnection() method inherited
+            // from the super class (MySqlDao.java)
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM blocks";
+            preparedStatement = connection.prepareStatement(query);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double hardness = resultSet.getDouble("hardness");
+                double blastResistance = resultSet.getDouble("blast_resistance");
+                boolean gravityAffected = resultSet.getBoolean("gravity_affected");
+                Block blockToAdd = new Block(id, name, hardness, blastResistance, gravityAffected);
+                blockList.add(blockToAdd);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findAllUseresultSet() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (preparedStatement != null)
+                {
+                    preparedStatement.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findAllUsers() " + e.getMessage());
+            }
+        }
+        return blockList;     // may be empty
+    }
+
 
     /**
      * Feature 2 - finding entity by ID
