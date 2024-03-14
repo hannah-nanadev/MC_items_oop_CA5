@@ -18,6 +18,6 @@ public interface BlockDaoInterface
     //TODO - Hannah
     //Block deleteBlockById(int id) throws DaoException;
 
-    //TODO - Ruby
-    //Block insertBlock(Block b) throws DaoException;
+    //TODO - possible rewrite to return int for displaying if the block was successfully inserted or not
+    void insertABlock(Block block) throws DaoException;
 }

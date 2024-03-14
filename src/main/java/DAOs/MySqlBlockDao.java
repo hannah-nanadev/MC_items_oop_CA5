@@ -72,4 +72,60 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
         }
         return null;
     }
+
+
+    /**
+     *  Feature 4 - insert new block into database
+     *  Made by Ruby, copied from Ruby's github on 14.3.2024
+     */
+    @Override
+    public void insertABlock(Block block) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try
+        {
+            // Get connection object using the getConnection() method inherited
+            // from the super class (MySqlDao.java)
+            connection = this.getConnection();
+
+            String query = "INSERT INTO blocks (name, hardness, blast_resistance, gravity_affected) VALUES (?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            // Set parameters for the PreparedStatement
+            preparedStatement.setString(1, block.getName());
+            preparedStatement.setDouble(2, block.getHardness());
+            preparedStatement.setDouble(3, block.getBlastResistance());
+            preparedStatement.setBoolean(4, block.isGravityAffected());
+
+            // Execute the update
+            preparedStatement.executeUpdate();
+
+        }
+        catch (SQLException e)
+        {
+            throw new DaoException("insertABlock() " + e.getMessage());
+        }
+        finally
+        {
+            // Close resources in finally block
+            try
+            {
+                if (preparedStatement != null)
+                {
+                    preparedStatement.close();
+                }
+                if (connection != null)
+                {
+                    connection.close();
+                }
+            }
+            catch (SQLException ex)
+            {
+                // Handle exception while closing resources
+                throw new DaoException("Error closing resources: " + ex.getMessage());
+            }
+        }
+    }
 }

@@ -19,6 +19,9 @@ public class MainApp
             System.out.println("\nCall getBlockById(4). Should return obsidian.");
             System.out.println("Block: " + IBlockDao.getBlockById(4));
 
+
+            IBlockDao.insertABlock(new Block(0, "Cobbled DeepSlate", 10, 10, false));
+
         }
         catch(DaoException e)
         {
