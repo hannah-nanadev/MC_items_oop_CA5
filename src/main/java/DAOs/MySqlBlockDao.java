@@ -6,6 +6,8 @@ import Exceptions.DaoException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /** Base code taken from oop-data-access-layer-sample-1
  *  Rewritten by Jakub Polacek
@@ -158,7 +160,7 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             preparedStatement.setString(1, block.getName());
             preparedStatement.setDouble(2, block.getHardness());
             preparedStatement.setDouble(3, block.getBlastResistance());
-            preparedStatement.setBoolean(4, block.isGravityAffected());
+            preparedStatement.setBoolean(4, block.getGravityAffected());
 
             // Execute the update
             preparedStatement.executeUpdate();
@@ -188,5 +190,20 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
                 throw new DaoException("Error closing resources: " + ex.getMessage());
             }
         }
+    }
+
+    /**
+     *  Feature 6 - get filtered list of blocks
+     *  Made by Jakub Polacek
+     *  Uses java streams, pipeline of object references and methods for use with bigger data sets
+     *  Takes in a predicate - a lambda function or method reference to filter the blocks by
+     *  example of method ref: 'Block::getGravityAffected'
+     *  example of lambda: '(e) -> e.getHardness() == 0.6' or '(e) -> e.getName().equals("Cobble")'
+     */
+
+    @Override
+    public List<Block> findBlocksUsingFilter(Predicate<Block> filter) throws DaoException
+    {
+        return findAllBlocks().stream().filter(filter).collect(Collectors.toList());
     }
 }

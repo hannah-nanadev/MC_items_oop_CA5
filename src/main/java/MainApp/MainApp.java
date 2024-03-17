@@ -4,8 +4,7 @@ import DAOs.BlockDaoInterface;
 import DAOs.MySqlBlockDao;
 import DTOs.Block;
 import Exceptions.DaoException;
-
-//import java.util.List;
+import java.util.List;
 
 public class MainApp
 {
@@ -21,6 +20,14 @@ public class MainApp
 
 
             IBlockDao.insertABlock(new Block(0, "Cobbled DeepSlate", 10, 10, false));
+
+
+            System.out.println("Finding blocks using filter on all gravity-affected blocks:");
+            List<Block> gravityAffectedBlocks = IBlockDao.findBlocksUsingFilter(Block::getGravityAffected);
+            for (Block b: gravityAffectedBlocks)
+            {
+                System.out.println(b.toString());
+            }
 
         }
         catch(DaoException e)

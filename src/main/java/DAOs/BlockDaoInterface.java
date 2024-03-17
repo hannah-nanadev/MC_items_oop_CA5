@@ -3,6 +3,7 @@ package DAOs;
 import DTOs.Block;
 import Exceptions.DaoException;
 import java.util.List;
+import java.util.function.Predicate;
 
 /** Base code taken from oop-data-access-layer-sample-1
  *  Rewritten by Jakub Polacek
@@ -20,4 +21,6 @@ public interface BlockDaoInterface
 
     //TODO - possible rewrite to return int for displaying if the block was successfully inserted or not
     void insertABlock(Block block) throws DaoException;
+
+    List<Block> findBlocksUsingFilter(Predicate<Block> filter) throws DaoException;
 }
