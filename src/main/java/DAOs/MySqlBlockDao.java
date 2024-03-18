@@ -228,6 +228,58 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
     }
 
     /**
+     * Feature 5 - update entity by ID
+     * Made by Hannah Kellett
+     */
+    public void updateBlockByID(int blockID, Block block) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "UPDATE blocks" +
+                    "\nSET name = ?, hardness = ?, blast_resistance = ?, gravity_affected = ?" +
+                    "\nWHERE id = ?";
+
+            ps = connection.prepareStatement(query);
+            ps.setString(1, block.getName());
+            ps.setDouble(2, block.getHardness());
+            ps.setDouble(3, block.getBlastResistance());
+            ps.setBoolean(4, block.getGravityAffected());
+            ps.setInt(5, blockID);
+
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            throw new DaoException("Error updating block: " + e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(ps!=null)
+                {
+                    ps.close();
+                }
+                if(connection!=null)
+                {
+                    connection.close();
+                }
+            }
+            catch(SQLException e)
+            {
+                throw new DaoException("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
+
+
+
+    /**
      *  Feature 6 - get filtered list of blocks
      *  Made by Jakub Polacek
      *  Uses java streams, pipeline of object references and methods for use with bigger data sets
