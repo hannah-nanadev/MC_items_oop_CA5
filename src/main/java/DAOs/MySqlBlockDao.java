@@ -136,6 +136,41 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
         return null;
     }
 
+    /**
+     *  Feature 3 - Delete block from database by ID
+     *  Method implementation by Hannah Kellett, written 18/03/2024 (late but shhh)
+     **/
+
+    public void deleteBlockByID(int blockID) throws DaoException
+    {
+        Connection connection = null;
+
+        try{
+            connection = this.getConnection();
+
+            Statement st = connection.createStatement();
+            st.executeQuery("delete * from blocks where id = " + blockID);
+        }
+        catch(SQLException e)
+        {
+            throw new DaoException("deleteBlockByID() " + e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(connection!=null) {
+                    freeConnection(connection);
+                }
+            }
+            catch(SQLException e)
+            {
+                throw new DaoException("deleteBlockByID() " + e.getMessage());
+            }
+        }
+    }
+
+
 
     /**
      *  Feature 4 - insert new block into database
