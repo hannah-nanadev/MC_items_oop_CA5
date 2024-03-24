@@ -65,7 +65,7 @@ public class Block
     {
         this.blastResistance = blastResistance;
     }
-    public boolean getGravityAffected()
+    public boolean isGravityAffected()
     {
         return gravityAffected;
     }

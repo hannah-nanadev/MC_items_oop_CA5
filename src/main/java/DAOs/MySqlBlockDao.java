@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+
 /** Base code taken from oop-data-access-layer-sample-1
- *  Rewritten by Jakub Polacek
+ *  Rewritten by Jakub Polacek and Ruby :3
  *  Methods/features added over time by the group
  */
 
@@ -139,14 +141,19 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
     /**
      *  Feature 3 - Delete block from database by ID
      *  Method implementation by Hannah Kellett, written 18/03/2024 (late but shhh)
+     *
+     *  Updated to return the deleted block by Ruby 18/03/24
      **/
 
-    public void deleteBlockByID(int blockID) throws DaoException
-    {
+    public Block deleteBlockById(int blockID) throws DaoException  {
         Connection connection = null;
+
+        Block deletedBlock = null;
 
         try{
             connection = this.getConnection();
+
+            deletedBlock = this.getBlockById(blockID);
 
             Statement st = connection.createStatement();
             st.executeQuery("delete * from blocks where id = " + blockID);
@@ -162,6 +169,8 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
                 if(connection!=null) {
                     freeConnection(connection);
                 }
+
+                return deletedBlock;
             }
             catch(SQLException e)
             {
@@ -195,7 +204,7 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             preparedStatement.setString(1, block.getName());
             preparedStatement.setDouble(2, block.getHardness());
             preparedStatement.setDouble(3, block.getBlastResistance());
-            preparedStatement.setBoolean(4, block.getGravityAffected());
+            preparedStatement.setBoolean(4, block.isGravityAffected());
 
             // Execute the update
             preparedStatement.executeUpdate();
@@ -226,7 +235,6 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             }
         }
     }
-
     /**
      * Feature 5 - update entity by ID
      * Made by Hannah Kellett
@@ -248,7 +256,7 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             ps.setString(1, block.getName());
             ps.setDouble(2, block.getHardness());
             ps.setDouble(3, block.getBlastResistance());
-            ps.setBoolean(4, block.getGravityAffected());
+            ps.setBoolean(4, block.isGravityAffected());
             ps.setInt(5, blockID);
 
             ps.executeUpdate();
@@ -276,9 +284,6 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             }
         }
     }
-
-
-
     /**
      *  Feature 6 - get filtered list of blocks
      *  Made by Jakub Polacek
@@ -292,5 +297,37 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
     public List<Block> findBlocksUsingFilter(Predicate<Block> filter) throws DaoException
     {
         return findAllBlocks().stream().filter(filter).collect(Collectors.toList());
+    }
+
+    /**
+    Feature 8 - key entity to json
+    Ruby White :D
+    24/03/2024
+     */
+
+    public String blockToJson(int id){ //serialises by id passes through
+        String jsonString = "";
+        try {
+            Block blockToSerialise = getBlockById(id);
+
+            Gson gsonParser = new Gson();
+
+            jsonString = gsonParser.toJson(blockToSerialise);
+        }
+        catch (DaoException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jsonString;
+    }
+
+    public String blockToJson(Block blockToSerialise){ // serialises by key entity passed through
+        String jsonString = "";
+
+        Gson gsonParser = new Gson();
+
+        jsonString = gsonParser.toJson(blockToSerialise);
+
+        return jsonString;
     }
 }
