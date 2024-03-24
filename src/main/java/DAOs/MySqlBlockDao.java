@@ -300,6 +300,31 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
     }
 
     /**
+     * Feature 7 - list of entities to json
+     * Hannah Kellett
+     * 24/03/2024
+     */
+
+    public String blocksListToJson()
+    {
+        String jsonString = "";
+        try
+        {
+            List<Block> listToSerialise = findAllBlocks();
+
+            Gson gsonParser = new Gson();
+
+            jsonString = gsonParser.toJson(listToSerialise);
+        }
+        catch (DaoException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return jsonString;
+    }
+
+    /**
     Feature 8 - key entity to json
     Ruby White :D
     24/03/2024

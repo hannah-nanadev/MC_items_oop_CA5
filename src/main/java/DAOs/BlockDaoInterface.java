@@ -29,5 +29,6 @@ public interface BlockDaoInterface
 
     public String blockToJson(int id);
     public String blockToJson(Block blockToSerialise);
+    public String blocksListToJson() throws DaoException;
 
 }
