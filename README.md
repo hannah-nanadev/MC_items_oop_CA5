@@ -4,5 +4,5 @@ Object Oriented Programming Project (CA5)
 <br>2024
 ### Collaborative project in designated group:
 Jakub Polacek: me
-<br>Ruby White: https://github.com/Ruby101-was-taken
+<br>Ruby White: https://github.com/Ruby101-was-taken/MC_items_oop_CA5_Ruby_White
 <br>Hannah Kellet: https://github.com/hannah-nanadev/MC_items_oop_CA5
