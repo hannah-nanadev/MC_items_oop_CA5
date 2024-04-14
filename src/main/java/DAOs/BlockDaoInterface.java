@@ -16,7 +16,6 @@ public interface BlockDaoInterface
 
     Block getBlockById(int id) throws DaoException;
 
-    //TODO - Hannah
     Block deleteBlockById(int id) throws DaoException;
 
     //TODO - possible rewrite to return int for displaying if the block was successfully inserted or not
@@ -26,9 +25,6 @@ public interface BlockDaoInterface
 
     List<Block> findBlocksUsingFilter(Predicate<Block> filter) throws DaoException;
 
-
     public String blockToJson(int id);
     public String blockToJson(Block blockToSerialise);
-    public String blocksListToJson() throws DaoException;
-
 }

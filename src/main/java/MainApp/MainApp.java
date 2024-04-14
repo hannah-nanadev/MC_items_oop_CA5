@@ -4,21 +4,18 @@ import DAOs.BlockDaoInterface;
 import DAOs.MySqlBlockDao;
 import DTOs.Block;
 import Exceptions.DaoException;
-import MenuItems.MenuItem;
-
 import java.util.List;
 import java.util.Scanner;
-
-//import java.util.List;
 
 public class MainApp
 {
     public static void main(String[] args) {
-
         menu();
-
     }
 
+    /**
+     Menu by Ruby 18/03/24, copied on 9.4.2024 with minor changes
+     */
 
     public static Block createBlock(){
 
@@ -42,11 +39,8 @@ public class MainApp
 
             newBlock = new Block(name, hardness, blastResistance, gravityAffected);
         }
-
-
         return newBlock;
     }
-
 
     public static void printAllBlocks(BlockDaoInterface IBlockDao){
         List<Block> allBlocks = null;
@@ -61,17 +55,9 @@ public class MainApp
         }
     }
 
-    /**
-     Menu by Ruby 18/03/24
-     */
-
     public static void menu() {
-
-
         Scanner key = new Scanner(System.in);
-
         BlockDaoInterface IBlockDao = new MySqlBlockDao();
-
 
         MenuItem mainMenu = new MenuItem("Main Menu", "Return to the main menu.");
         MenuItem getMenu = new MenuItem("Get Menu", "Retrieve info from the database.");
@@ -114,8 +100,7 @@ public class MainApp
                 new MenuItem("Get JSON by Block", "Returns the JSON string for a block made from entered values")
         });
 
-
-        //setting the first menu
+        //Setting the first menu
         MenuItem currentMenu = mainMenu;
         boolean run = true;
         try {
@@ -169,7 +154,7 @@ public class MainApp
                             currentMenu = currentMenu.getMenuItems().get(menuChoice-1);
                             break;
                         case 2:
-                            List<Block> gravBlocks = IBlockDao.findBlocksUsingFilter(Block::isGravityAffected); // using isGravityAffected over getGravityAffected cuz it's better
+                            List<Block> gravBlocks = IBlockDao.findBlocksUsingFilter(Block::getGravityAffected);
 
                             for(Block block : gravBlocks){
                                 System.out.println(block);
