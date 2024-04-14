@@ -9,6 +9,8 @@ package ClientServer;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
+
+import DAOs.MySqlBlockDao;
 import com.google.gson.Gson;
 import DTOs.Block;
 
@@ -28,7 +30,7 @@ public class Client
             System.out.println("Client message: The Client is running and has connected to the server");
             Scanner keyboardInput = new Scanner(System.in);
             System.out.println("Please enter a command: ");
-            System.out.println("Available commands: F9, quit");
+            System.out.println("Available commands: F9, F10 quit");
             String clientCommand = keyboardInput.nextLine();
 
             while(true)
@@ -44,6 +46,14 @@ public class Client
                     Block block = gsonParser.fromJson(response,Block.class);
                     //TODO make output nicer
                     System.out.println(block.toString());
+                }
+                else if (clientCommand.equals("F10")) //Feature 10 - Hannah
+                {
+                    System.out.println("Function 10 selected - Display All Blocks");
+                    out.println("F10");
+                    String response = in.readLine();
+                    //TODO should be JSON
+                    System.out.println(response);
                 }
                 else if (clientCommand.startsWith("quit"))
                 {
