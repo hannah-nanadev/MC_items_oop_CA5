@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import DAOs.BlockDaoInterface;
+import DAOs.MySqlBlockDao;
 
 /**
  *  Written by Jakub Polacek on 13-14.4. 2024
@@ -38,22 +40,24 @@ public class ClientHandler implements Runnable
     public void run()
     {
         String request;
+        BlockDaoInterface IBlockDao = new MySqlBlockDao();
         try
         {
             while ((request = clientReader.readLine()) != null)
             {
                 System.out.println("Server: (ClientHandler): Read command from client " + clientNumber + ": " + request);
 
-                if (request.startsWith("echo"))
+                if (request.startsWith("F9"))
                 {
-                    String message = request.substring(5); // strip off the leading substring "echo "
-                    clientWriter.println(message);   // send the received message back to the client
-                    System.out.println("Server message: echo message sent to client.");
+                    String message = request.substring(2);
+                    String blockAsJson = IBlockDao.blockToJson(Integer.parseInt(message));
+                    clientWriter.println(blockAsJson);
+                    System.out.println("Server message: JSON string of Block by id " + message + " sent to client.");
                 }
                 else if (request.startsWith("quit"))
                 {
                     clientWriter.println("Sorry to see you leaving. Goodbye.");
-                    System.out.println("Server message: Invalid request from client.");
+                    System.out.println("Server message: Quit request from client, executed.");
                 }
                 else
                 {

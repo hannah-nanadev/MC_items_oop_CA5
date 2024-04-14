@@ -9,8 +9,8 @@ package ClientServer;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
-import MainApp.MainApp;
-import com.sun.tools.javac.Main;
+import com.google.gson.Gson;
+import DTOs.Block;
 
 public class Client
 {
@@ -28,18 +28,26 @@ public class Client
             System.out.println("Client message: The Client is running and has connected to the server");
             Scanner keyboardInput = new Scanner(System.in);
             System.out.println("Please enter a command: ");
+            System.out.println("Available commands: F9, quit");
             String clientCommand = keyboardInput.nextLine();
 
             while(true)
             {
-                out.println(clientCommand);
-                if (clientCommand.startsWith("test"))
+                if (clientCommand.equals("F9"))
                 {
+                    System.out.println("Function 9 selected - Display Block by ID");
+                    System.out.println("Please input the desired ID to be found:");
+                    clientCommand = keyboardInput.nextLine();
+                    out.println("F9"+clientCommand);
                     String response = in.readLine();
-                    System.out.println("Client message: Response from server: \"" + response + "\"");
+                    Gson gsonParser = new Gson();
+                    Block block = gsonParser.fromJson(response,Block.class);
+                    //TODO make output nicer
+                    System.out.println(block.toString());
                 }
                 else if (clientCommand.startsWith("quit"))
                 {
+                    out.println(clientCommand);
                     String response = in.readLine();
                     System.out.println("Client message: Response from server: \"" + response + "\"");
                     break;
