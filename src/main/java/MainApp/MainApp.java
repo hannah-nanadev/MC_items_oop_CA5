@@ -154,7 +154,7 @@ public class MainApp
                             currentMenu = currentMenu.getMenuItems().get(menuChoice-1);
                             break;
                         case 2:
-                            List<Block> gravBlocks = IBlockDao.findBlocksUsingFilter(Block::getGravityAffected);
+                            List<Block> gravBlocks = IBlockDao.findBlocksUsingFilter(Block::isGravityAffected);
 
                             for(Block block : gravBlocks){
                                 System.out.println(block);

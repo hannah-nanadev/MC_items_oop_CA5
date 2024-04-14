@@ -201,7 +201,7 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             preparedStatement.setString(1, block.getName());
             preparedStatement.setDouble(2, block.getHardness());
             preparedStatement.setDouble(3, block.getBlastResistance());
-            preparedStatement.setBoolean(4, block.getGravityAffected());
+            preparedStatement.setBoolean(4, block.isGravityAffected());
 
             // Execute the update
             preparedStatement.executeUpdate();
@@ -254,7 +254,7 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
             ps.setString(1, block.getName());
             ps.setDouble(2, block.getHardness());
             ps.setDouble(3, block.getBlastResistance());
-            ps.setBoolean(4, block.getGravityAffected());
+            ps.setBoolean(4, block.isGravityAffected());
             ps.setInt(5, blockID);
 
             ps.executeUpdate();
