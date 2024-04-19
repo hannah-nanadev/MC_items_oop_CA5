@@ -331,4 +331,25 @@ public class MySqlBlockDao extends MySqlDao implements BlockDaoInterface
         return jsonString;
     }
 
+    /**
+     Not a feature listed on spec - written for convenience
+     Convert list of all blocks to json
+     By Hannah Kellett - 19/04/24
+     */
+
+    public String allBlocksToJson() throws DaoException
+    {
+        try {
+            List<Block> blocks = findAllBlocks();
+            Gson gsonParser = new Gson();
+            String blocksAsJson = gsonParser.toJson(blocks);
+
+            return blocksAsJson;
+        }
+        catch(DaoException e) {
+            return null;
+        }
+
+    }
+
 }

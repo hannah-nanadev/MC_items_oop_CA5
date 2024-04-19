@@ -52,7 +52,7 @@ public class Client
                     System.out.println("Function 10 selected - Display All Blocks");
                     out.println("F10");
                     String response = in.readLine();
-                    //TODO should be JSON
+                    //TODO convert back to list, improve formatting
                     System.out.println(response);
                 }
                 else if (clientCommand.startsWith("quit"))

@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
+
 import DAOs.BlockDaoInterface;
 import DAOs.MySqlBlockDao;
+import DTOs.Block;
 import Exceptions.DaoException;
 
 /**
@@ -57,8 +60,8 @@ public class ClientHandler implements Runnable
                 }
                 if (request.startsWith("F10")) //Feature 10 - Hannah
                 {
-                    String allBlocks = IBlockDao.findAllBlocks().toString();
-                    clientWriter.println(allBlocks);
+                    String blocksAsJson = IBlockDao.allBlocksToJson();
+                    clientWriter.println(blocksAsJson);
                     System.out.println("Server message: List of all blocks in database sent to client.");
                 }
                 else if (request.startsWith("quit"))
