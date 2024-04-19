@@ -8,6 +8,7 @@ package ClientServer;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 import DAOs.MySqlBlockDao;
@@ -53,7 +54,11 @@ public class Client
                     out.println("F10");
                     String response = in.readLine();
                     //TODO convert back to list, improve formatting
-                    System.out.println(response);
+
+                    Gson parse = new Gson();
+                    List allBlocks = parse.fromJson(response, List.class); //TODO TEST THIS AND MAKE IT MAYBE LESS SCUFFED (AND IMPLEMENT IT PROPERLY)
+
+                    System.out.println(allBlocks.toString());
                 }
                 else if (clientCommand.startsWith("quit"))
                 {
