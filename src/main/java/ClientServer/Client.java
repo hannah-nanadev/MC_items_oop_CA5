@@ -7,13 +7,14 @@ package ClientServer;
  */
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-import DAOs.MySqlBlockDao;
 import com.google.gson.Gson;
 import DTOs.Block;
+import com.google.gson.reflect.TypeToken;
 
 public class Client
 {
@@ -53,12 +54,14 @@ public class Client
                     System.out.println("Function 10 selected - Display All Blocks");
                     out.println("F10");
                     String response = in.readLine();
-                    //TODO convert back to list, improve formatting
 
                     Gson parse = new Gson();
-                    List allBlocks = parse.fromJson(response, List.class); //TODO TEST THIS AND MAKE IT MAYBE LESS SCUFFED (AND IMPLEMENT IT PROPERLY)
+                    //source for below scuffed solution: https://stackoverflow.com/questions/15332733/how-to-convert-list-data-into-json-in-java
+                    Type listOfBlock = new TypeToken<List<Block>>(){}.getType();
+                    List<Block> allBlocks = parse.fromJson(response, listOfBlock);
 
-                    System.out.println(allBlocks.toString());
+                    System.out.println(formatList(allBlocks));
+
                 }
                 else if (clientCommand.startsWith("quit"))
                 {
@@ -82,5 +85,19 @@ public class Client
             System.out.println("Client message: IOException: " + e);
         }
         System.out.println("Exiting client, server may still be running.");
+    }
+
+    private static String formatList(List<Block> list)
+    {
+        String out = "";
+
+        for(int i = 0; i<list.size(); i++){
+            Block b = list.get(i);
+            out = out + (b.getName() + " (ID " + b.getId() + ")\n"
+            + "Hardness: " + b.getHardness() + "\tBlast resistance: " + b.getBlastResistance() + "\n"
+            + "Affected by gravity: " + b.isGravityAffected() + "\n\n");
+        }
+
+        return out;
     }
 }
